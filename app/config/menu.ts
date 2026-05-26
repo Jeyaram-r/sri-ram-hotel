@@ -14,9 +14,8 @@ export interface MenuItem {
 }
 export interface MenuSection {
   mealType: string;
-  mealTypeImg: {
-    src: string;
-  };
+  mealTypeImg: string;
+  
   categories: MealCategory[];
 }
 
