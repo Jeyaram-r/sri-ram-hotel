@@ -7,7 +7,7 @@ import './globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'My Next.js Application',
+  title: 'SriRam Hotel',
   description: 'Built with App Router',
 };
 
