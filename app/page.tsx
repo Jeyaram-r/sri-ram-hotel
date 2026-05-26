@@ -4,6 +4,7 @@ import Navbar from "./components/navbar";
 import MenuSection from "../app/menu/page";
 import BackgroundImg from "../app/images/background.png";
 import { useRouter } from "next/navigation";
+import logo1 from "../app/images/logo1.png"
 const SPECIALS = [
   {
     name: "Masala Dosa",
@@ -507,9 +508,14 @@ export default function Home() {
           textAlign: "center",
           marginTop: "3rem",
           borderTop: "1px solid rgba(201,168,76,0.15)",
+
         }}
       >
-        <div style={{ fontSize: "1.3rem", marginBottom: "0.5rem" }}>🏮</div>
+                  <img 
+            src={logo1.src} 
+            alt="Sri Ram Hotel" 
+            style={{ height: 40, width: "100%", objectFit: "contain" }} 
+          />
         <p
           style={{
             color: "#F5F0E8",
