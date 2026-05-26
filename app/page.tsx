@@ -528,7 +528,7 @@ export default function Home() {
             letterSpacing: "0.08em",
           }}
         >
-          Tiruchirappalli · Open 7 days a week
+          MuthuKrishnaperi · Open 7 days a week
         </p>
         <div
           style={{
