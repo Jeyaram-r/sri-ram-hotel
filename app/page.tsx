@@ -522,7 +522,7 @@ export default function Home() {
         </p>
         <p
           style={{
-            color: "#5A4A38",
+            color: "#F5F0E8",
             fontSize: "0.78rem",
             margin: 0,
             letterSpacing: "0.08em",
@@ -546,7 +546,7 @@ export default function Home() {
             margin: 0,
           }}
         >
-          © 2025 Sri Ram Hotel. All rights reserved.
+          © 2026 Sri Ram Hotel. All rights reserved.
         </p>
       </footer>
     </div>
