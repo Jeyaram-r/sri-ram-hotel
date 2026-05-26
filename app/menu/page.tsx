@@ -1,9 +1,5 @@
 "use client";
 import { useState } from "react";
-
-const breakfast = "https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?w=800&q=80";
-const lunch = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80";
-const dinner = "https://images.unsplash.com/photo-1555949258-eb67b1ef0ceb?w=800&q=80";
 import { hotelMenu } from "../config/menu";
 // const hotelMenu = [
 //   {
@@ -211,8 +207,8 @@ export default function Menu() {
               textTransform: "uppercase",
               fontFamily: "'Georgia', serif",
               fontWeight: activeSection === i ? "bold" : "normal",
-              color: activeSection === i ? s.accent : "#8A7B6A",
-              borderBottom: activeSection === i ? `2.5px solid ${s.accent}` : "2.5px solid transparent",
+              color: "#8A7B6A",
+              borderBottom:  "2.5px solid transparent",
               transition: "all 0.2s",
               marginBottom: -1,
             }}
@@ -270,17 +266,7 @@ export default function Menu() {
             >
               {section.mealType}
             </h2>
-            <p
-              style={{
-                color: "rgba(255,255,255,0.7)",
-                fontSize: "0.82rem",
-                letterSpacing: "0.15em",
-                margin: "0.25rem 0 0",
-                textTransform: "uppercase",
-              }}
-            >
-              {section.time}
-            </p>
+            
           </div>
         </div>
 
@@ -305,9 +291,9 @@ export default function Menu() {
               {/* Category header */}
               <div
                 style={{
-                  background: section.accentLight,
+                 
                   padding: "0.85rem 1.25rem",
-                  borderBottom: `1px solid ${section.accent}22`,
+                  
                   display: "flex",
                   alignItems: "center",
                   gap: 8,
@@ -318,7 +304,7 @@ export default function Menu() {
                     width: 6,
                     height: 6,
                     borderRadius: "50%",
-                    background: section.accent,
+                   
                     flexShrink: 0,
                   }}
                 />
@@ -328,7 +314,7 @@ export default function Menu() {
                     fontSize: "0.72rem",
                     letterSpacing: "0.22em",
                     textTransform: "uppercase",
-                    color: section.accent,
+                   
                     fontFamily: "'Georgia', serif",
                     fontWeight: "bold",
                   }}
@@ -364,7 +350,7 @@ export default function Menu() {
                       style={{
                         fontSize: "0.85rem",
                         fontWeight: "bold",
-                        color: item.price === 0 ? "#8A7B6A" : section.accent,
+                        color: "#8A7B6A",
                         fontFamily: "Georgia, serif",
                         minWidth: 48,
                         textAlign: "right",
