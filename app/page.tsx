@@ -1,10 +1,10 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Navbar from "./components/navbar";
 import MenuSection from "../app/menu/page";
 import BackgroundImg from "../app/images/background.png";
-import { useRouter } from "next/navigation";
-import logo1 from "../app/images/logo1.png"
+import logo1 from "../app/images/logo1.png";
+
 const SPECIALS = [
   {
     name: "Masala Dosa",
@@ -24,7 +24,7 @@ const SPECIALS = [
   },
   {
     name: "Chappathi + Kuruma",
-    desc: "Fragrant basmati rice with tender chicken pieces",
+    desc: "Soft chappathi served with flavourful kuruma",
     tag: "Dinner Favourite",
     emoji: "🍛",
     color: "#1B7C4E",
@@ -33,26 +33,10 @@ const SPECIALS = [
 ];
 
 const WHY_US = [
-  {
-    icon: "🔥",
-    title: "Hot & Fresh",
-    desc: "Every dish made to order, served piping hot",
-  },
-  {
-    icon: "🌿",
-    title: "Pure Ingredients",
-    desc: "No compromise on quality — ever",
-  },
-  {
-    icon: "💰",
-    title: "Honest Prices",
-    desc: "Great food that doesn't empty your pocket",
-  },
-  {
-    icon: "❤️",
-    title: "Made with Love",
-    desc: "Recipes passed down through generations",
-  },
+  { icon: "🔥", title: "Hot & Fresh", desc: "Every dish made to order, served piping hot" },
+  { icon: "🌿", title: "Pure Ingredients", desc: "No compromise on quality — ever" },
+  { icon: "💰", title: "Honest Prices", desc: "Great food that doesn't empty your pocket" },
+  { icon: "❤️", title: "Made with Love", desc: "Recipes passed down through generations" },
 ];
 
 const TIMINGS = [
@@ -62,28 +46,28 @@ const TIMINGS = [
 ];
 
 export default function Home() {
-  const router = useRouter();
+  const menuRef = useRef<HTMLElement>(null);
+  const timingsRef = useRef<HTMLElement>(null);
   const [scrolled, setScrolled] = useState(false);
-  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    setVisible(true);
     const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  const scrollTo = (ref: React.RefObject<HTMLElement>) => {
+    if (ref.current) {
+      const top = ref.current.getBoundingClientRect().top + window.scrollY - 70;
+      window.scrollTo({ top, behavior: "smooth" });
+    }
+  };
+
   return (
-    <div
-      style={{
-        fontFamily: "'Georgia', 'Times New Roman', serif",
-        background: "#FAF8F4",
-        minHeight: "100vh",
-      }}
-    >
+    <div style={{ fontFamily: "'Georgia', 'Times New Roman', serif", background: "#FAF8F4", minHeight: "100vh" }}>
       <style>{`
         @keyframes fadeUp {
-          from { opacity: 0; transform: translateY(28px); }
+          from { opacity: 0; transform: translateY(24px); }
           to { opacity: 1; transform: translateY(0); }
         }
         @keyframes float {
@@ -95,27 +79,64 @@ export default function Home() {
         .d2 { animation-delay: 0.25s; }
         .d3 { animation-delay: 0.4s; }
         .d4 { animation-delay: 0.55s; }
+        .special-card { transition: transform 0.25s, box-shadow 0.25s; }
         .special-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.10); }
-        .why-card:hover { background: #fff; }
+        .why-card:hover { background: rgba(255,255,255,0.09) !important; }
+        .cta-btn { transition: all 0.2s; }
         .cta-btn:hover { opacity: 0.88; transform: scale(1.03); }
-        .nav-link:hover { color: #C9A84C !important; }
-      `}</style>
+        .cta-btn:active { transform: scale(0.97); }
 
-      {/* Navbar */}
-      {/* <Navbar/> */}
+        /* Mobile overrides */
+        @media (max-width: 600px) {
+          .hero-section {
+            padding: 3.5rem 1.2rem 3rem !important;
+            min-height: 92vh !important;
+          }
+          .hero-buttons {
+            flex-direction: column !important;
+            align-items: center !important;
+            gap: 0.75rem !important;
+          }
+          .hero-buttons button {
+            width: 100% !important;
+            max-width: 300px !important;
+          }
+          .specials-grid {
+            grid-template-columns: 1fr !important;
+          }
+          .why-grid {
+            grid-template-columns: 1fr 1fr !important;
+          }
+          .timings-section {
+            padding: 3rem 1rem 2rem !important;
+          }
+          .footer-logo {
+            height: 50px !important;
+            width: auto !important;
+          }
+          .float-emoji {
+            display: none !important;
+          }
+        }
+        @media (min-width: 601px) and (max-width: 900px) {
+          .specials-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+          }
+          .why-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+          }
+        }
+      `}</style>
 
       {/* Hero */}
       <section
+        className="hero-section"
         style={{
           position: "relative",
           overflow: "hidden",
           padding: "5rem 2rem 4.5rem",
           textAlign: "center",
-
-          backgroundImage: `
-      linear-gradient(rgba(26,18,8,0.72), rgba(26,18,8,0.72)),
-      url(${BackgroundImg.src})
-    `,
+          backgroundImage: `linear-gradient(rgba(26,18,8,0.72), rgba(26,18,8,0.72)), url(${BackgroundImg.src})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
@@ -125,238 +146,117 @@ export default function Home() {
           justifyContent: "center",
         }}
       >
-        {/* subtle background pattern */}
-        {/* <div style={{
-          position: "absolute", inset: 0,
-          
-          backgroundImage: "radial-gradient(circle at 20% 50%, rgba(193,68,14,0.12) 0%, transparent 50%), radial-gradient(circle at 80% 30%, rgba(201,168,76,0.08) 0%, transparent 50%)",
-        }} /> */}
-        <div style={{ position: "relative", maxWidth: 680, margin: "0 auto" }}>
-          <p
-            className={`fade-up d1`}
-            style={{
-              color: "#C9A84C",
-              fontSize: "0.72rem",
-              letterSpacing: "0.35em",
-              textTransform: "uppercase",
-              marginBottom: "1rem",
-            }}
-          >
+        <div style={{ position: "relative", maxWidth: 680, margin: "0 auto", width: "100%" }}>
+          <p className="fade-up d1" style={{
+            color: "#C9A84C", fontSize: "0.72rem",
+            letterSpacing: "0.35em", textTransform: "uppercase", marginBottom: "1rem",
+          }}>
             Welcome to
           </p>
-          <h1
-            className={`fade-up d2`}
-            style={{
-              color: "#F5F0E8",
-              fontSize: "clamp(2.8rem, 8vw, 5rem)",
-              fontWeight: 400,
-              lineHeight: 1.1,
-              margin: "0 0 0.5rem",
-              letterSpacing: "0.02em",
-            }}
-          >
+          <h1 className="fade-up d2" style={{
+            color: "#F5F0E8",
+            fontSize: "clamp(2.2rem, 8vw, 5rem)",
+            fontWeight: 400, lineHeight: 1.1,
+            margin: "0 0 0.5rem", letterSpacing: "0.02em",
+          }}>
             Sri Ram Hotel
           </h1>
-          <div
-            className={`fade-up d2`}
-            style={{
-              width: 60,
-              height: 1.5,
-              background: "#C9A84C",
-              margin: "1.2rem auto",
-            }}
-          />
-          <p
-            className={`fade-up d3`}
-            style={{
-              color: "#B09070",
-              fontSize: "clamp(1rem, 2.5vw, 1.2rem)",
-              fontStyle: "italic",
-              lineHeight: 1.7,
-              marginBottom: "2rem",
-            }}
-          >
-            Small place, big taste. Simple food cooked with heart —<br />
+          <div className="fade-up d2" style={{ width: 60, height: 1.5, background: "#C9A84C", margin: "1.2rem auto" }} />
+          <p className="fade-up d3" style={{
+            color: "#B09070",
+            fontSize: "clamp(0.95rem, 2.5vw, 1.2rem)",
+            fontStyle: "italic", lineHeight: 1.7, marginBottom: "2rem",
+            padding: "0 0.5rem",
+          }}>
+            Small place, big taste. Simple food cooked with heart —
             the way it's always been done.
           </p>
-          <div
-            className={`fade-up d4`}
-            style={{
-              display: "flex",
-              gap: "1rem",
-              justifyContent: "center",
-              flexWrap: "wrap",
-            }}
-          >
+          <div className="fade-up d4 hero-buttons" style={{
+            display: "flex", gap: "1rem",
+            justifyContent: "center", flexWrap: "wrap",
+          }}>
             <button
               className="cta-btn"
               style={{
-                background: "#C1440E",
-                color: "#fff",
-                border: "none",
-                borderRadius: 8,
-                padding: "0.85rem 2.2rem",
-                fontSize: "0.82rem",
-                letterSpacing: "0.15em",
-                textTransform: "uppercase",
-                cursor: "pointer",
-                fontFamily: "Georgia, serif",
-                fontWeight: "bold",
-                transition: "all 0.2s",
+                background: "#C1440E", color: "#fff",
+                border: "none", borderRadius: 8,
+                padding: "0.9rem 2.2rem",
+                fontSize: "0.82rem", letterSpacing: "0.15em",
+                textTransform: "uppercase", cursor: "pointer",
+                fontFamily: "Georgia, serif", fontWeight: "bold",
               }}
-              onClick={() => {
-                
-                // setTimeout(() => {
-                //   const el = document.getElementById("menu");
-                //   if (el) {
-                //     const top = el.getBoundingClientRect().top + window.scrollY - 70;
-                //     window.scrollTo({ top, behavior: "smooth" });
-                //   }
-                // }, 50);
-              }}
-
+              onClick={() => scrollTo(menuRef)}
             >
               View Menu
             </button>
             <button
               className="cta-btn"
               style={{
-                background: "transparent",
-                color: "#C9A84C",
-                border: "1.5px solid #C9A84C",
-                borderRadius: 8,
-                padding: "0.85rem 2.2rem",
-                fontSize: "0.82rem",
-                letterSpacing: "0.15em",
-                textTransform: "uppercase",
-                cursor: "pointer",
+                background: "transparent", color: "#C9A84C",
+                border: "1.5px solid #C9A84C", borderRadius: 8,
+                padding: "0.9rem 2.2rem",
+                fontSize: "0.82rem", letterSpacing: "0.15em",
+                textTransform: "uppercase", cursor: "pointer",
                 fontFamily: "Georgia, serif",
-                transition: "all 0.2s",
               }}
+              onClick={() => scrollTo(timingsRef)}
             >
               Our Timings
             </button>
           </div>
         </div>
 
-        {/* floating food emojis */}
         {["🍛", "🥞", "🍳", "☕"].map((e, i) => (
-          <span
-            key={i}
-            style={{
-              position: "absolute",
-              fontSize: "2rem",
-              opacity: 0.18,
-              animation: `float ${3 + i * 0.4}s ease-in-out infinite`,
-              animationDelay: `${i * 0.6}s`,
-              top: `${20 + (i % 2) * 40}%`,
-              left: i < 2 ? `${5 + i * 6}%` : `${85 + (i - 2) * 6}%`,
-              pointerEvents: "none",
-              userSelect: "none",
-            }}
-          >
-            {e}
-          </span>
+          <span key={i} className="float-emoji" style={{
+            position: "absolute", fontSize: "2rem", opacity: 0.18,
+            animation: `float ${3 + i * 0.4}s ease-in-out infinite`,
+            animationDelay: `${i * 0.6}s`,
+            top: `${20 + (i % 2) * 40}%`,
+            left: i < 2 ? `${5 + i * 6}%` : `${85 + (i - 2) * 6}%`,
+            pointerEvents: "none", userSelect: "none",
+          }}>{e}</span>
         ))}
       </section>
 
       {/* Today's Specials */}
-      <section
-        style={{ maxWidth: 960, margin: "0 auto", padding: "4rem 1.5rem 2rem" }}
-      >
+      <section style={{ maxWidth: 960, margin: "0 auto", padding: "4rem 1.2rem 2rem" }}>
         <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
-          <p
-            style={{
-              color: "#C9A84C",
-              fontSize: "0.72rem",
-              letterSpacing: "0.3em",
-              textTransform: "uppercase",
-              marginBottom: "0.4rem",
-            }}
-          >
+          <p style={{ color: "#C9A84C", fontSize: "0.72rem", letterSpacing: "0.3em", textTransform: "uppercase", marginBottom: "0.4rem" }}>
             — what we're known for —
           </p>
-          <h2
-            style={{
-              fontSize: "clamp(1.6rem, 4vw, 2.4rem)",
-              color: "#2A1A08",
-              fontWeight: 400,
-              margin: 0,
-            }}
-          >
+          <h2 style={{ fontSize: "clamp(1.5rem, 4vw, 2.4rem)", color: "#2A1A08", fontWeight: 400, margin: 0 }}>
             Today's Specials
           </h2>
         </div>
-
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-            gap: "1.25rem",
-          }}
-        >
+        <div className="specials-grid" style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+          gap: "1rem",
+        }}>
           {SPECIALS.map((s, i) => (
-            <div
-              key={i}
-              className="special-card"
-              style={{
-                background: "#fff",
-                border: "1px solid #EAE5DB",
-                borderRadius: 14,
-                padding: "1.5rem 1.4rem",
-                transition: "transform 0.25s, box-shadow 0.25s",
-                cursor: "default",
-              }}
-            >
-              <div
-                style={{
-                  width: 54,
-                  height: 54,
-                  borderRadius: 12,
-                  background: s.bg,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontSize: "1.8rem",
-                  marginBottom: "1rem",
-                }}
-              >
+            <div key={i} className="special-card" style={{
+              background: "#fff", border: "1px solid #EAE5DB",
+              borderRadius: 14, padding: "1.4rem",
+            }}>
+              <div style={{
+                width: 50, height: 50, borderRadius: 12, background: s.bg,
+                display: "flex", alignItems: "center", justifyContent: "center",
+                fontSize: "1.7rem", marginBottom: "0.9rem",
+              }}>
                 {s.emoji}
               </div>
-              <span
-                style={{
-                  display: "inline-block",
-                  background: s.bg,
-                  color: s.color,
-                  fontSize: "0.65rem",
-                  letterSpacing: "0.18em",
-                  textTransform: "uppercase",
-                  fontWeight: "bold",
-                  padding: "3px 10px",
-                  borderRadius: 20,
-                  marginBottom: "0.6rem",
-                }}
-              >
+              <span style={{
+                display: "inline-block", background: s.bg, color: s.color,
+                fontSize: "0.63rem", letterSpacing: "0.18em",
+                textTransform: "uppercase", fontWeight: "bold",
+                padding: "3px 10px", borderRadius: 20, marginBottom: "0.6rem",
+              }}>
                 {s.tag}
               </span>
-              <h3
-                style={{
-                  fontSize: "1.1rem",
-                  color: "#2A1A08",
-                  margin: "0 0 0.4rem",
-                  fontWeight: 400,
-                }}
-              >
+              <h3 style={{ fontSize: "1.05rem", color: "#2A1A08", margin: "0 0 0.35rem", fontWeight: 400 }}>
                 {s.name}
               </h3>
-              <p
-                style={{
-                  fontSize: "0.87rem",
-                  color: "#8A7060",
-                  lineHeight: 1.6,
-                  margin: 0,
-                }}
-              >
+              <p style={{ fontSize: "0.85rem", color: "#8A7060", lineHeight: 1.6, margin: 0 }}>
                 {s.desc}
               </p>
             </div>
@@ -364,67 +264,33 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Why us */}
-      <section
-        style={{
-          background: "#1A1208",
-          margin: "3rem 0 0",
-          padding: "3.5rem 1.5rem",
-        }}
-      >
+      {/* Why Us */}
+      <section style={{ background: "#1A1208", margin: "3rem 0 0", padding: "3.5rem 1.2rem" }}>
         <div style={{ maxWidth: 880, margin: "0 auto" }}>
-          <p
-            style={{
-              textAlign: "center",
-              color: "#C9A84C",
-              fontSize: "0.72rem",
-              letterSpacing: "0.3em",
-              textTransform: "uppercase",
-              marginBottom: "2rem",
-            }}
-          >
+          <p style={{
+            textAlign: "center", color: "#C9A84C",
+            fontSize: "0.72rem", letterSpacing: "0.3em",
+            textTransform: "uppercase", marginBottom: "2rem",
+          }}>
             Why people love us
           </p>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
-              gap: "1rem",
-            }}
-          >
+          <div className="why-grid" style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+            gap: "1rem",
+          }}>
             {WHY_US.map((w, i) => (
-              <div
-                key={i}
-                className="why-card"
-                style={{
-                  background: "rgba(255,255,255,0.04)",
-                  borderRadius: 12,
-                  padding: "1.4rem 1.2rem",
-                  border: "1px solid rgba(255,255,255,0.06)",
-                  transition: "background 0.2s",
-                }}
-              >
-                <div style={{ fontSize: "1.8rem", marginBottom: "0.6rem" }}>
-                  {w.icon}
-                </div>
-                <h4
-                  style={{
-                    color: "#F5F0E8",
-                    fontSize: "0.95rem",
-                    margin: "0 0 0.35rem",
-                    fontWeight: 400,
-                  }}
-                >
+              <div key={i} className="why-card" style={{
+                background: "rgba(255,255,255,0.04)",
+                borderRadius: 12, padding: "1.3rem 1.1rem",
+                border: "1px solid rgba(255,255,255,0.06)",
+                transition: "background 0.2s",
+              }}>
+                <div style={{ fontSize: "1.7rem", marginBottom: "0.5rem" }}>{w.icon}</div>
+                <h4 style={{ color: "#F5F0E8", fontSize: "0.92rem", margin: "0 0 0.3rem", fontWeight: 400 }}>
                   {w.title}
                 </h4>
-                <p
-                  style={{
-                    color: "#7A6A58",
-                    fontSize: "0.82rem",
-                    lineHeight: 1.6,
-                    margin: 0,
-                  }}
-                >
+                <p style={{ color: "#7A6A58", fontSize: "0.8rem", lineHeight: 1.6, margin: 0 }}>
                   {w.desc}
                 </p>
               </div>
@@ -432,126 +298,63 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section id="menu">
+
+      {/* Menu */}
+      <section ref={menuRef} id="menu">
         <MenuSection />
       </section>
+
       {/* Timings */}
-      <section
-        style={{ maxWidth: 700, margin: "0 auto", padding: "4rem 1.5rem 2rem" }}
-      >
+      <section ref={timingsRef} className="timings-section" style={{ maxWidth: 700, margin: "0 auto", padding: "4rem 1.2rem 2rem" }}>
         <div style={{ textAlign: "center", marginBottom: "2rem" }}>
-          <h2
-            style={{
-              fontSize: "clamp(1.4rem, 3.5vw, 2rem)",
-              color: "#2A1A08",
-              fontWeight: 400,
-              margin: 0,
-            }}
-          >
+          <h2 style={{ fontSize: "clamp(1.3rem, 3.5vw, 2rem)", color: "#2A1A08", fontWeight: 400, margin: 0 }}>
             We're Open
           </h2>
-          <div
-            style={{
-              width: 40,
-              height: 1.5,
-              background: "#C9A84C",
-              margin: "0.75rem auto 0",
-            }}
-          />
+          <div style={{ width: 40, height: 1.5, background: "#C9A84C", margin: "0.75rem auto 0" }} />
         </div>
-        <div
-          style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}
-        >
+        <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
           {TIMINGS.map((t, i) => (
-            <div
-              key={i}
-              style={{
-                background: "#fff",
-                border: "1px solid #EAE5DB",
-                borderRadius: 10,
-                padding: "1rem 1.4rem",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                borderLeft: `4px solid ${t.color}`,
-              }}
-            >
-              <span
-                style={{
-                  fontWeight: "bold",
-                  color: "#2A1A08",
-                  fontSize: "1rem",
-                  letterSpacing: "0.02em",
-                }}
-              >
+            <div key={i} style={{
+              background: "#fff", border: "1px solid #EAE5DB",
+              borderRadius: 10, padding: "1rem 1.2rem",
+              display: "flex", alignItems: "center",
+              justifyContent: "space-between",
+              borderLeft: `4px solid ${t.color}`,
+            }}>
+              <span style={{ fontWeight: "bold", color: "#2A1A08", fontSize: "clamp(0.9rem, 3vw, 1rem)" }}>
                 {t.meal}
               </span>
-              <span
-                style={{
-                  color: "#7A6A58",
-                  fontSize: "0.88rem",
-                  fontStyle: "italic",
-                }}
-              >
+              <span style={{ color: "#7A6A58", fontSize: "clamp(0.78rem, 2.5vw, 0.88rem)", fontStyle: "italic" }}>
                 {t.time}
               </span>
             </div>
           ))}
+          <span style={{ color: "#7A6A58", fontSize: "clamp(0.78rem, 2.5vw, 0.88rem)", fontStyle: "italic" }}>
+                {"Thursday Leave *"}
+              </span>
         </div>
       </section>
 
       {/* Footer */}
-      <footer
-        style={{
-          background: "#1A1208",
-          padding: "2.5rem 2rem",
-          textAlign: "center",
-          marginTop: "3rem",
-          borderTop: "1px solid rgba(201,168,76,0.15)",
-
-        }}
-      >
-                  <img 
-            src={logo1.src} 
-            alt="Sri Ram Hotel" 
-            style={{ height: 40, width: "100%", objectFit: "contain" }} 
-          />
-        <p
-          style={{
-            color: "#F5F0E8",
-            fontSize: "1rem",
-            margin: "0 0 0.25rem",
-            letterSpacing: "0.05em",
-          }}
-        >
+      <footer style={{
+        background: "#1A1208", padding: "2.5rem 1.5rem",
+        textAlign: "center", marginTop: "3rem",
+        borderTop: "1px solid rgba(201,168,76,0.15)",
+      }}>
+        <img
+          src={logo1.src}
+          alt="Sri Ram Hotel"
+          className="footer-logo"
+          style={{ height: 60, width: "100%", objectFit: "contain", marginBottom: "0.75rem" }}
+        />
+        <p style={{ color: "#F5F0E8", fontSize: "1rem", margin: "0 0 0.25rem", letterSpacing: "0.05em" }}>
           Sri Ram Hotel
         </p>
-        <p
-          style={{
-            color: "#F5F0E8",
-            fontSize: "0.78rem",
-            margin: 0,
-            letterSpacing: "0.08em",
-          }}
-        >
+        <p style={{ color: "#ffff", fontSize: "0.78rem", margin: 0, letterSpacing: "0.08em" }}>
           MuthuKrishnaperi · Open 7 days a week
         </p>
-        <div
-          style={{
-            width: 40,
-            height: 1,
-            background: "#C9A84C",
-            margin: "1rem auto",
-          }}
-        />
-        <p
-          style={{
-            color: "#5A4A38",
-            fontSize: "0.72rem",
-            letterSpacing: "0.05em",
-            margin: 0,
-          }}
-        >
+        <div style={{ width: 40, height: 1, background: "#C9A84C", margin: "1rem auto" }} />
+        <p style={{ color: "#5A4A38", fontSize: "0.72rem", letterSpacing: "0.05em", margin: 0 }}>
           © 2026 Sri Ram Hotel. All rights reserved.
         </p>
       </footer>
