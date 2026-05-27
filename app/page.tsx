@@ -185,7 +185,7 @@ export default function Home() {
                 textTransform: "uppercase", cursor: "pointer",
                 fontFamily: "Georgia, serif", fontWeight: "bold",
               }}
-              onClick={() => scrollTo(menuRef)}
+             
             >
               View Menu
             </button>
@@ -199,7 +199,7 @@ export default function Home() {
                 textTransform: "uppercase", cursor: "pointer",
                 fontFamily: "Georgia, serif",
               }}
-              onClick={() => scrollTo(timingsRef)}
+              
             >
               Our Timings
             </button>
