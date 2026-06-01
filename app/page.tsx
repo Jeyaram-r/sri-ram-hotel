@@ -407,7 +407,7 @@ html, body { overflow-x: hidden; max-width: 100%; }
           src={logo1.src}
           alt="Sri Ram Hotel"
           className="footer-logo"
-          style={{ height: 60, width: "auto", objectFit: "contain", marginBottom: "0.75rem" ,display:"flex",justifyContent:"center"}}
+          style={{ height: 60, width: "100%", objectFit: "contain", marginBottom: "0.75rem" }}
         />
         <p style={{ color: "#F5F0E8", fontSize: "1rem", margin: "0 0 0.25rem", letterSpacing: "0.05em" }}>
           Sri Ram Hotel

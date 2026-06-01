@@ -42,7 +42,8 @@ export default function Navbar() {
 
       <nav
         style={{
-          position: "sticky",
+          position: "fixed",
+          width: "100%",
           top: 0,
           zIndex: 100,
           background: scrolled ? "rgba(26,18,8,0.97)" : "#1A1208",
