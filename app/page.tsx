@@ -89,6 +89,8 @@ export default function Home() {
   return (
     <div style={{ fontFamily: "'Georgia', 'Times New Roman', serif", background: "#FAF8F4", minHeight: "100vh" }}>
       <style>{`
+      * { box-sizing: border-box; }
+html, body { overflow-x: hidden; max-width: 100%; }
       .hero-logo-mobile { display: none; }
 @media (max-width: 639px) {
   .hero-logo-mobile { display: block; margin: 0 auto 1.5rem; }
@@ -405,7 +407,7 @@ export default function Home() {
           src={logo1.src}
           alt="Sri Ram Hotel"
           className="footer-logo"
-          style={{ height: 60, width: "100%", objectFit: "contain", marginBottom: "0.75rem" }}
+          style={{ height: 60, width: "auto", objectFit: "contain", marginBottom: "0.75rem" ,display:"flex",justifyContent:"center"}}
         />
         <p style={{ color: "#F5F0E8", fontSize: "1rem", margin: "0 0 0.25rem", letterSpacing: "0.05em" }}>
           Sri Ram Hotel
