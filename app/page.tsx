@@ -4,6 +4,7 @@ import Navbar from "./components/navbar";
 import MenuSection from "../app/menu/page";
 import BackgroundImg from "../app/images/background.png";
 import logo1 from "../app/images/logo1.png";
+import About from "./about/page";
 
 const SPECIALS = [
   {
@@ -62,10 +63,36 @@ export default function Home() {
       window.scrollTo({ top, behavior: "smooth" });
     }
   };
+  function useInView(threshold = 0.15) {
+    const ref = useRef<HTMLDivElement>(null);
+    const [inView, setInView] = useState(false);
+    useEffect(() => {
+      const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setInView(true); }, { threshold });
+      if (ref.current) obs.observe(ref.current);
+      return () => obs.disconnect();
+    }, []);
+    return { ref, inView };
+  }
+  function FadeIn({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+    const { ref, inView } = useInView();
+    return (
+      <div ref={ref} style={{
+        opacity: inView ? 1 : 0,
+        transform: inView ? "translateY(0)" : "translateY(24px)",
+        transition: `opacity 0.7s ease ${delay}s, transform 0.7s ease ${delay}s`,
+      }}>
+        {children}
+      </div>
+    );
+  }
 
   return (
     <div style={{ fontFamily: "'Georgia', 'Times New Roman', serif", background: "#FAF8F4", minHeight: "100vh" }}>
       <style>{`
+      .hero-logo-mobile { display: none; }
+@media (max-width: 639px) {
+  .hero-logo-mobile { display: block; margin: 0 auto 1.5rem; }
+}
         @keyframes fadeUp {
           from { opacity: 0; transform: translateY(24px); }
           to { opacity: 1; transform: translateY(0); }
@@ -147,6 +174,12 @@ export default function Home() {
         }}
       >
         <div style={{ position: "relative", maxWidth: 680, margin: "0 auto", width: "100%" }}>
+        <img
+  src={logo1.src}
+  alt="Sri Ram Hotel"
+  className="hero-logo-mobile"
+  style={{ height: 70, width: "auto", objectFit: "contain", marginBottom: "1.5rem" }}
+/>
           <p className="fade-up d1" style={{
             color: "#C9A84C", fontSize: "0.72rem",
             letterSpacing: "0.35em", textTransform: "uppercase", marginBottom: "1rem",
@@ -175,21 +208,19 @@ export default function Home() {
             display: "flex", gap: "1rem",
             justifyContent: "center", flexWrap: "wrap",
           }}>
-            <button
-              className="cta-btn"
-              style={{
-                background: "#C1440E", color: "#fff",
-                border: "none", borderRadius: 8,
-                padding: "0.9rem 2.2rem",
-                fontSize: "0.82rem", letterSpacing: "0.15em",
-                textTransform: "uppercase", cursor: "pointer",
-                fontFamily: "Georgia, serif", fontWeight: "bold",
-              }}
-             
-            >
-              View Menu
-            </button>
-            <button
+            <a href="#menu" style={{
+            display: "inline-block",
+            background: "#C1440E", color: "#fff",
+            borderRadius: 8, padding: "0.9rem 2.4rem",
+            fontSize: "0.82rem", letterSpacing: "0.15em",
+            textTransform: "uppercase", textDecoration: "none",
+            fontFamily: "Georgia, serif", fontWeight: "bold",
+            transition: "opacity 0.2s",
+          }}>
+            View Our Menu
+          </a>
+            <a
+              href="#timing"
               className="cta-btn"
               style={{
                 background: "transparent", color: "#C9A84C",
@@ -202,7 +233,7 @@ export default function Home() {
               
             >
               Our Timings
-            </button>
+            </a>
           </div>
         </div>
 
@@ -263,6 +294,31 @@ export default function Home() {
           ))}
         </div>
       </section>
+      <section style={{ textAlign: "center", padding: "4rem 1.5rem" }}>
+        <FadeIn>
+          <p style={{ color: "#C9A84C", fontSize: "0.72rem", letterSpacing: "0.3em", textTransform: "uppercase", marginBottom: "0.75rem" }}>
+            Come visit us
+          </p>
+          <h2 style={{ fontSize: "clamp(1.4rem, 4vw, 2rem)", color: "#2A1A08", fontWeight: 400, margin: "0 0 1rem" }}>
+            We'd love to feed you
+          </h2>
+          <p style={{ color: "#8A7060", fontSize: "0.95rem", lineHeight: 1.8, maxWidth: 480, margin: "0 auto 2rem", fontStyle: "italic" }}>
+            Whether it's your first visit or your hundredth, you'll always find a warm meal and a
+            welcoming table at Sri Ram Hotel.
+          </p>
+          <a href="/menu" style={{
+            display: "inline-block",
+            background: "#C1440E", color: "#fff",
+            borderRadius: 8, padding: "0.9rem 2.4rem",
+            fontSize: "0.82rem", letterSpacing: "0.15em",
+            textTransform: "uppercase", textDecoration: "none",
+            fontFamily: "Georgia, serif", fontWeight: "bold",
+            transition: "opacity 0.2s",
+          }}>
+            View Our Menu
+          </a>
+        </FadeIn>
+      </section>
 
       {/* Why Us */}
       <section style={{ background: "#1A1208", margin: "3rem 0 0", padding: "3.5rem 1.2rem" }}>
@@ -298,6 +354,10 @@ export default function Home() {
           </div>
         </div>
       </section>
+      
+      <section>
+        <About/>
+      </section>
 
       {/* Menu */}
       <section ref={menuRef} id="menu">
@@ -305,7 +365,7 @@ export default function Home() {
       </section>
 
       {/* Timings */}
-      <section ref={timingsRef} className="timings-section" style={{ maxWidth: 700, margin: "0 auto", padding: "4rem 1.2rem 2rem" }}>
+      <section id="timing" ref={timingsRef} className="timings-section" style={{ maxWidth: 700, margin: "0 auto", padding: "4rem 1.2rem 2rem" }}>
         <div style={{ textAlign: "center", marginBottom: "2rem" }}>
           <h2 style={{ fontSize: "clamp(1.3rem, 3.5vw, 2rem)", color: "#2A1A08", fontWeight: 400, margin: 0 }}>
             We're Open
