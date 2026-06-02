@@ -18,6 +18,9 @@ export const metadata: Metadata = {
 
   keywords: [
     "Sri Ram Hotel",
+    "Sriram hotel mk peri",
+    "sriram hotel",
+    "sriram hotel kalluthu",
     "Sri Ram Hotel Alangulam",
     "Sri Ram Hotel Muthukrishnaperi",
     "Sri Ram Hotel MK Peri",
