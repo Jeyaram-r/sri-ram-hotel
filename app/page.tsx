@@ -418,7 +418,7 @@ html, body { overflow-x: hidden; max-width: 100%; }
           Sri Ram Hotel
         </p>
         <p style={{ color: "#ffff", fontSize: "0.78rem", margin: 0, letterSpacing: "0.08em" }}>
-          MuthuKrishnaperi · Open 7 days a week
+          MuthuKrishnaperi · Open 6 days a week
         </p>
         <div style={{ width: 40, height: 1, background: "#C9A84C", margin: "1rem auto" }} />
         <p style={{ color: "#5A4A38", fontSize: "0.72rem", letterSpacing: "0.05em", margin: 0 }}>
