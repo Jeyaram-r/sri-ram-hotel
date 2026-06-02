@@ -1,25 +1,8 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import OwnerImg from "../../public/WhatsApp Image 2026-06-01 at 12.26.05 PM.jpeg"
+import { useLang } from "../context/LangContext";
 
-const MILESTONES = [
-  { year: "2013", title: "The Beginning", desc: "Sri Ram Hotel opened its doors in MuthuKrishnaperi, Alangulam — a humble kitchen with a big dream to serve honest, homestyle South Indian food." },
-  { year: "2015", title: "Growing Reputation", desc: "Word spread across the neighbourhood. Regulars came every morning for idly and dosa, and the lunch crowd grew steadily with biriyani and kothu poratta." },
-  {
-    year: "2020",
-    title: "Serving Through the Pandemic",
-    desc: "During the challenging COVID-19 pandemic, Sri Ram Hotel remained committed to serving fresh, hygienic meals to the community. While many faced uncertainty, the hotel continued to support families, frontline workers, and travelers with safe and reliable food service, becoming a symbol of care and resilience during difficult times."
-  },
-  { year: "2023", title: "A Decade of Flavour", desc: "Ten years of serving the community — thousands of meals, countless loyal customers, and the same dedication to fresh, affordable South Indian cooking." },
-  { year: "2026", title: "Still Going Strong", desc: "Over a decade later, Sri Ram Hotel continues to serve the same heart-made food that started it all. The kitchen is busier than ever." },
-];
-
-const VALUES = [
-  { icon: "🌅", title: "Fresh Every Day", desc: "We prepare everything fresh each morning. No shortcuts, no leftovers served the next day." },
-  { icon: "🤝", title: "Community First", desc: "We've grown alongside our neighbours. Every customer is treated like family — because many of them are." },
-  { icon: "🍃", title: "Simple & Pure", desc: "No fancy additives or shortcuts. Just clean ingredients, traditional recipes, and honest cooking." },
-  { icon: "💛", title: "Affordable Always", desc: "Good food should be for everyone. We've kept our prices fair since day one and always will." },
-];
 
 function useInView(threshold = 0.15) {
   const ref = useRef<HTMLDivElement>(null);
@@ -46,6 +29,25 @@ function FadeIn({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
 }
 
 export default function About() {
+  const { t } = useLang();
+  const MILESTONES = [
+    { year: "2013", title: t("milestone.2013.title"), desc: t("milestone.2013.desc") },
+    { year: "2015", title: t("milestone.2015.title"), desc: t("milestone.2015.desc") },
+    {
+      year: "2020",
+      title: "Serving Through the Pandemic",
+      desc: "During the challenging COVID-19 pandemic, Sri Ram Hotel remained committed to serving fresh, hygienic meals to the community. While many faced uncertainty, the hotel continued to support families, frontline workers, and travelers with safe and reliable food service, becoming a symbol of care and resilience during difficult times."
+    },
+    { year: "2023", title: t("milestone.2023.title"), desc: t("milestone.2023.desc") },
+    { year: "2026", title: t("milestone.2026.title"), desc: t("milestone.2026.desc") },
+  ];
+  
+  const VALUES = [
+    { icon: "🌅", title: "Fresh Every Day", desc: "We prepare everything fresh each morning. No shortcuts, no leftovers served the next day." },
+    { icon: "🤝", title: "Community First", desc: "We've grown alongside our neighbours. Every customer is treated like family — because many of them are." },
+    { icon: "🍃", title: "Simple & Pure", desc: "No fancy additives or shortcuts. Just clean ingredients, traditional recipes, and honest cooking." },
+    { icon: "💛", title: "Affordable Always", desc: "Good food should be for everyone. We've kept our prices fair since day one and always will." },
+  ];
   return (
     <div style={{ fontFamily: "'Georgia', 'Times New Roman', serif", background: "#FAF8F4", minHeight: "100vh" }}>
       <style>{`
@@ -91,21 +93,24 @@ export default function About() {
         }} />
         <div style={{ position: "relative", maxWidth: 680, margin: "0 auto" }}>
           <p className="hero-sub" style={{ color: "#C9A84C", fontSize: "0.72rem", letterSpacing: "0.35em", textTransform: "uppercase", marginBottom: "1rem" }}>
-            Our Story
+            {/* Our Story */}
+            {t("about.ourstory")}
           </p>
           <h1 className="hero-title" style={{
             color: "#F5F0E8", fontSize: "clamp(2.2rem, 7vw, 4rem)",
             fontWeight: 400, margin: "0 0 0.5rem", lineHeight: 1.1, letterSpacing: "0.02em",
           }}>
-            About Us
+            {/* About Us */}
+            {t("about.title")}
           </h1>
           <div className="hero-divider" style={{ width: 60, height: 1.5, background: "#C9A84C", margin: "1.2rem auto" }} />
           <p className="hero-sub" style={{
             color: "#B09070", fontSize: "clamp(0.95rem, 2.5vw, 1.15rem)",
             fontStyle: "italic", lineHeight: 1.8, margin: 0,
           }}>
-            More than a decade of serving the community —<br />
-            one plate at a time.
+            {/* More than a decade of serving the community —<br />
+            one plate at a time. */}
+            {t("about.tagline")}
           </p>
         </div>
       </section>
@@ -131,17 +136,19 @@ export default function About() {
             <img alt="Owner" src={OwnerImg.src} height={"200px"} width={"150px"} />
             <div>
               <p style={{ color: "#C9A84C", fontSize: "0.7rem", letterSpacing: "0.3em", textTransform: "uppercase", margin: "0 0 0.4rem" }}>
-                Founder & Owner
+                {/* Founder & Owner */}
+                {t("about.founderlabel")}
               </p>
               <h2 style={{ color: "#2A1A08", fontSize: "clamp(1.4rem, 4vw, 2rem)", fontWeight: 400, margin: "0 0 0.75rem" }}>
                 Ravichandran P
               </h2>
               <p style={{ color: "#6A5A4A", fontSize: "0.95rem", lineHeight: 1.8, margin: 0 }}>
-                With a passion for authentic South Indian flavours and a belief that good food should be
+                {/* With a passion for authentic South Indian flavours and a belief that good food should be
                 accessible to everyone, Ravichandran P founded Sri Ram Hotel in 2013. Starting from scratch
                 in MuthuKrishnaperi, he built the hotel on three principles — freshness, honesty, and heart.
                 Over a decade later, he continues to oversee every aspect of the kitchen, ensuring every dish
-                served carries the same love and care it always has.
+                served carries the same love and care it always has. */}
+                {t("about.founderbio")}
               </p>
             </div>
           </div>
@@ -186,10 +193,12 @@ export default function About() {
         <FadeIn>
           <div style={{ textAlign: "center", marginBottom: "3.5rem" }}>
             <p style={{ color: "#C9A84C", fontSize: "0.72rem", letterSpacing: "0.3em", textTransform: "uppercase", marginBottom: "0.4rem" }}>
-              Since 2013
+              {/* Since 2013 */}
+              {t("about.journeylabel")}
             </p>
             <h2 style={{ fontSize: "clamp(1.5rem, 4vw, 2.2rem)", color: "#F5F0E8", fontWeight: 400, margin: 0 }}>
-              Our Journey
+              {/* Our Journey */}
+              {t("about.journeytitle")}
             </h2>
           </div>
         </FadeIn>
@@ -266,14 +275,17 @@ export default function About() {
       <section style={{ textAlign: "center", padding: "4rem 1.5rem" }}>
         <FadeIn>
           <p style={{ color: "#C9A84C", fontSize: "0.72rem", letterSpacing: "0.3em", textTransform: "uppercase", marginBottom: "0.75rem" }}>
-            Come visit us
+            {/* Come visit us */}
+            {t("about.ctalabel")}
           </p>
           <h2 style={{ fontSize: "clamp(1.4rem, 4vw, 2rem)", color: "#2A1A08", fontWeight: 400, margin: "0 0 1rem" }}>
-            We'd love to feed you
+            {/* We'd love to feed you */}
+            {t("about.ctatitle")}
           </h2>
           <p style={{ color: "#8A7060", fontSize: "0.95rem", lineHeight: 1.8, maxWidth: 480, margin: "0 auto 2rem", fontStyle: "italic" }}>
-            Whether it's your first visit or your hundredth, you'll always find a warm meal and a
-            welcoming table at Sri Ram Hotel.
+            {/* Whether it's your first visit or your hundredth, you'll always find a warm meal and a
+            welcoming table at Sri Ram Hotel. */}
+            {t("about.ctadesc")}
           </p>
           <a href="/menu" style={{
             display: "inline-block",
@@ -284,7 +296,8 @@ export default function About() {
             fontFamily: "Georgia, serif", fontWeight: "bold",
             transition: "opacity 0.2s",
           }}>
-            View Our Menu
+            {/* View Our Menu */}
+            {t("about.ctabtn")}
           </a>
         </FadeIn>
       </section>

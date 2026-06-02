@@ -5,6 +5,9 @@ import MenuSection from "../app/menu/page";
 import BackgroundImg from "../app/images/background.png";
 import logo1 from "../app/images/logo1.png";
 import About from "./about/page";
+import { useLang } from "../app/context/LangContext";
+
+// inside the component:
 
 const SPECIALS = [
   {
@@ -50,6 +53,7 @@ export default function Home() {
   const menuRef = useRef<HTMLElement>(null);
   const timingsRef = useRef<HTMLElement>(null);
   const [scrolled, setScrolled] = useState(false);
+  const { t } = useLang();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -185,7 +189,8 @@ html, body { overflow-x: hidden; max-width: 100%; }
             color: "#C9A84C", fontSize: "0.72rem",
             letterSpacing: "0.35em", textTransform: "uppercase", marginBottom: "1rem",
           }}>
-            Welcome to
+           
+            {t("hero.welcome")}
           </p>
           <h1 className="fade-up d2" style={{
             color: "#F5F0E8",
@@ -193,7 +198,7 @@ html, body { overflow-x: hidden; max-width: 100%; }
             fontWeight: 400, lineHeight: 1.1,
             margin: "0 0 0.5rem", letterSpacing: "0.02em",
           }}>
-            Sri Ram Hotel
+            {t("hero.name")}
           </h1>
           <div className="fade-up d2" style={{ width: 60, height: 1.5, background: "#C9A84C", margin: "1.2rem auto" }} />
           <p className="fade-up d3" style={{
@@ -202,8 +207,7 @@ html, body { overflow-x: hidden; max-width: 100%; }
             fontStyle: "italic", lineHeight: 1.7, marginBottom: "2rem",
             padding: "0 0.5rem",
           }}>
-            Small place, big taste. Simple food cooked with heart —
-            the way it's always been done.
+            {t("hero.tagline")}
           </p>
           <div className="fade-up d4 hero-buttons" style={{
             display: "flex", gap: "1rem",
@@ -218,7 +222,7 @@ html, body { overflow-x: hidden; max-width: 100%; }
             fontFamily: "Georgia, serif", fontWeight: "bold",
             transition: "opacity 0.2s",
           }}>
-            View Our Menu
+            {t("hero.viewmenu")}
           </a>
             <a
               href="#timing"
@@ -233,7 +237,7 @@ html, body { overflow-x: hidden; max-width: 100%; }
               }}
               
             >
-              Our Timings
+              {t("hero.timings")}
             </a>
           </div>
         </div>
@@ -254,10 +258,12 @@ html, body { overflow-x: hidden; max-width: 100%; }
       <section style={{ maxWidth: 960, margin: "0 auto", padding: "4rem 1.2rem 2rem" }}>
         <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
           <p style={{ color: "#C9A84C", fontSize: "0.72rem", letterSpacing: "0.3em", textTransform: "uppercase", marginBottom: "0.4rem" }}>
-            — what we're known for —
+            {/* — what we're known for — */}
+            {t("specials.label")}
           </p>
           <h2 style={{ fontSize: "clamp(1.5rem, 4vw, 2.4rem)", color: "#2A1A08", fontWeight: 400, margin: 0 }}>
-            Today's Specials
+            {/* Today's Specials */}
+            {t("specials.title")}
           </h2>
         </div>
         <div className="specials-grid" style={{

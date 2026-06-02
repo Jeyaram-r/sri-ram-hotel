@@ -2,6 +2,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Navbar from "../app/components/navbar";
+import { LangProvider } from "../app/context/LangContext";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -35,34 +36,6 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/",
   },
-
-  // Open Graph (WhatsApp, Facebook previews)
-  // openGraph: {
-  //   title: "Sri Ram Hotel | Authentic South Indian Food in Alangulam",
-  //   description:
-  //     "Hot & fresh South Indian meals — Idly, Dosa, Biryani, Kothu Poratta and more. Visit Sri Ram Hotel in Alangulam.",
-  //   url: "https://www.sriramhotel.in",
-  //   siteName: "Sri Ram Hotel",
-  //   locale: "en_IN",
-  //   type: "restaurant",
-  //   images: [
-  //     {
-  //       url: "/og-image.png", // add a 1200x630 photo of your hotel/food
-  //       width: 1200,
-  //       height: 630,
-  //       alt: "Sri Ram Hotel - South Indian Food Alangulam",
-  //     },
-  //   ],
-  // },
-
-  // // Twitter / X card
-  // twitter: {
-  //   card: "summary_large_image",
-  //   title: "Sri Ram Hotel | South Indian Food Alangulam",
-  //   description: "Fresh South Indian breakfast, lunch & dinner at honest prices.",
-  //   images: ["/og-image.jpg"],
-  // },
-
   // Indexing
   robots: {
     index: true,
@@ -74,10 +47,6 @@ export const metadata: Metadata = {
     },
   },
 
-  // Verification — add after submitting to Google Search Console
-  // verification: {
-  //   google: "your-google-verification-code",
-  // },
 };
 
 export default function RootLayout({
@@ -129,8 +98,10 @@ export default function RootLayout({
         />
       </head>
       <body className={inter.className}>
-        <Navbar />
-        <main>{children}</main>
+      <LangProvider>
+          <Navbar />
+          <main style={{ paddingTop: 62 }}>{children}</main>
+        </LangProvider>
       </body>
     </html>
   );
