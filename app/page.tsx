@@ -141,7 +141,6 @@ html, body { overflow-x: hidden; max-width: 100%; }
           }
           .footer-logo {
             height: 50px !important;
-            width: auto !important;
           }
           .float-emoji {
             display: none !important;
@@ -176,12 +175,12 @@ html, body { overflow-x: hidden; max-width: 100%; }
         }}
       >
         <div style={{ position: "relative", maxWidth: 680, margin: "0 auto", width: "100%" }}>
-        <img
-  src={logo1.src}
-  alt="Sri Ram Hotel"
-  className="hero-logo-mobile"
-  style={{ height: 70, width: "auto", objectFit: "contain", marginBottom: "1.5rem" }}
-/>
+                  <img
+            src={logo1.src}
+            alt="Sri Ram Hotel"
+            className="hero-logo-mobile"
+            style={{ height: 70, width: "auto", objectFit: "contain", marginBottom: "1.5rem" }}
+          />
           <p className="fade-up d1" style={{
             color: "#C9A84C", fontSize: "0.72rem",
             letterSpacing: "0.35em", textTransform: "uppercase", marginBottom: "1rem",
