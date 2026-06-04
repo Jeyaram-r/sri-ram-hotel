@@ -6,7 +6,7 @@ import BackgroundImg from "../app/images/background.png";
 import logo1 from "../app/images/logo1.png";
 import About from "./about/page";
 import { useLang } from "../app/context/LangContext";
-
+import { trackEvent, trackPageView } from "../app/lib/mixpanel";
 // inside the component:
 
 const SPECIALS = [
@@ -50,6 +50,7 @@ const TIMINGS = [
 ];
 
 export default function Home() {
+  
   const menuRef = useRef<HTMLElement>(null);
   const timingsRef = useRef<HTMLElement>(null);
   const [scrolled, setScrolled] = useState(false);
@@ -59,6 +60,9 @@ export default function Home() {
     const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+  useEffect(() => {
+    trackPageView("Home");
   }, []);
 
   const scrollTo = (ref: React.RefObject<HTMLElement>) => {
@@ -162,6 +166,7 @@ html, body { overflow-x: hidden; max-width: 100%; }
 
       {/* Hero */}
       <section
+        id="#hero"
         className="hero-section"
         style={{
           position: "relative",
@@ -213,7 +218,8 @@ html, body { overflow-x: hidden; max-width: 100%; }
             display: "flex", gap: "1rem",
             justifyContent: "center", flexWrap: "wrap",
           }}>
-            <a href="#menu" style={{
+            <a href="#menu" onClick={() => trackEvent("View Menu Clicked", { source: "hero" })}
+            style={{
             display: "inline-block",
             background: "#C1440E", color: "#fff",
             borderRadius: 8, padding: "0.9rem 2.4rem",
@@ -224,8 +230,7 @@ html, body { overflow-x: hidden; max-width: 100%; }
           }}>
             {t("hero.viewmenu")}
           </a>
-            <a
-              href="#timing"
+          <a href="#timing" onClick={() => trackEvent("Timings Clicked", { source: "hero" })}
               className="cta-btn"
               style={{
                 background: "transparent", color: "#C9A84C",
@@ -272,7 +277,9 @@ html, body { overflow-x: hidden; max-width: 100%; }
           gap: "1rem",
         }}>
           {SPECIALS.map((s, i) => (
-            <div key={i} className="special-card" style={{
+            <div key={i} className="special-card"
+            onClick={() => trackEvent("Special Card Clicked", { item: s.name })}
+            style={{
               background: "#fff", border: "1px solid #EAE5DB",
               borderRadius: 14, padding: "1.4rem",
             }}>

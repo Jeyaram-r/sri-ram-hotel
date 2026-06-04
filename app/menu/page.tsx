@@ -187,7 +187,7 @@ export default function Menu() {
           gap: 0,
           background: "#fff",
           borderBottom: "1px solid #EAE5DB",
-          position: "sticky",
+          position: "relative",
           top: 0,
           zIndex: 10,
           boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
