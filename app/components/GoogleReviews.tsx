@@ -164,13 +164,15 @@ export default function GoogleReviews() {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-    const [rating,SetRating]=useState("");
+  const [placeInfo, setPlaceInfo] = useState<{ rating?: number; userRatingCount?: number }>({});
+
   useEffect(() => {
     fetch("/api/reviews")
       .then((res) => res.json())
       .then((data) => {
         setReviews(data.reviews || []);
-        SetRating(data);
+        setPlaceInfo({ rating: data.rating, userRatingCount: data.userRatingCount });
+
         setLoading(false);
       })
       .catch(() => {
@@ -182,7 +184,8 @@ export default function GoogleReviews() {
 //   const avgRating = reviews.length
 //     ? (reviews.reduce((sum, r) => sum + (r.rating || 5), 0) / reviews.length).toFixed(1)
 //     : "5.0";
-console.log(rating,reviews,"abcd")
+
+
   return (
     <section style={{
       background: "#FAF8F4",
@@ -220,12 +223,12 @@ console.log(rating,reviews,"abcd")
                 color: "#2A1A08", fontFamily: "Georgia, serif",
                 lineHeight: 1,
               }}>
-                {rating.rating}
+                {placeInfo.rating}
               </span>
               <div>
                 <StarRating rating={5} />
                 <p style={{ margin: "3px 0 0", color: "#8A7060", fontSize: "0.72rem", letterSpacing: "0.08em" }}>
-                  {rating.userRatingCount} Google reviews
+                  {placeInfo.userRatingCount} Google reviews
                 </p>
               </div>
               <svg width="24" height="24" viewBox="0 0 24 24" style={{ marginLeft: 4 }}>
