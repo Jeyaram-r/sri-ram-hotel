@@ -272,35 +272,7 @@ export default function About() {
       </section>
 
       {/* CTA */}
-      <section style={{ textAlign: "center", padding: "4rem 1.5rem" }}>
-        <FadeIn>
-          <p style={{ color: "#C9A84C", fontSize: "0.72rem", letterSpacing: "0.3em", textTransform: "uppercase", marginBottom: "0.75rem" }}>
-            {/* Come visit us */}
-            {t("about.ctalabel")}
-          </p>
-          <h2 style={{ fontSize: "clamp(1.4rem, 4vw, 2rem)", color: "#2A1A08", fontWeight: 400, margin: "0 0 1rem" }}>
-            {/* We'd love to feed you */}
-            {t("about.ctatitle")}
-          </h2>
-          <p style={{ color: "#8A7060", fontSize: "0.95rem", lineHeight: 1.8, maxWidth: 480, margin: "0 auto 2rem", fontStyle: "italic" }}>
-            {/* Whether it's your first visit or your hundredth, you'll always find a warm meal and a
-            welcoming table at Sri Ram Hotel. */}
-            {t("about.ctadesc")}
-          </p>
-          <a href="/menu" style={{
-            display: "inline-block",
-            background: "#C1440E", color: "#fff",
-            borderRadius: 8, padding: "0.9rem 2.4rem",
-            fontSize: "0.82rem", letterSpacing: "0.15em",
-            textTransform: "uppercase", textDecoration: "none",
-            fontFamily: "Georgia, serif", fontWeight: "bold",
-            transition: "opacity 0.2s",
-          }}>
-            {/* View Our Menu */}
-            {t("about.ctabtn")}
-          </a>
-        </FadeIn>
-      </section>
+      
 
       {/* Footer strip */}
       <div style={{

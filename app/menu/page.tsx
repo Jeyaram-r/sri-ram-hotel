@@ -145,7 +145,7 @@ export default function Menu() {
             fontFamily: "'Georgia', serif",
           }}
         >
-          Established 2010
+          Established 2013
         </p>
         <h1
           style={{

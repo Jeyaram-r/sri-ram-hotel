@@ -7,6 +7,7 @@ import logo1 from "../app/images/logo1.png";
 import About from "./about/page";
 import { useLang } from "../app/context/LangContext";
 import { trackEvent, trackPageView } from "../app/lib/mixpanel";
+import GoogleReviews from "./components/GoogleReviews";
 // inside the component:
 
 const SPECIALS = [
@@ -308,6 +309,7 @@ html, body { overflow-x: hidden; max-width: 100%; }
           ))}
         </div>
       </section>
+      
       <section style={{ textAlign: "center", padding: "4rem 1.5rem" }}>
         <FadeIn>
           <p style={{ color: "#C9A84C", fontSize: "0.72rem", letterSpacing: "0.3em", textTransform: "uppercase", marginBottom: "0.75rem" }}>
@@ -372,11 +374,14 @@ html, body { overflow-x: hidden; max-width: 100%; }
       <section>
         <About/>
       </section>
-
+      <section>
+        <GoogleReviews/>
+      </section>
       {/* Menu */}
       <section ref={menuRef} id="menu">
         <MenuSection />
       </section>
+      
 
       {/* Timings */}
       <section id="timing" ref={timingsRef} className="timings-section" style={{ maxWidth: 700, margin: "0 auto", padding: "4rem 1.2rem 2rem" }}>
