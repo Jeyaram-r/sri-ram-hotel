@@ -13,14 +13,16 @@ export async function GET() {
     }
 
     const response = await fetch(
-      `https://places.googleapis.com/v1/places/${placeId}?fields=displayName,rating,userRatingCount,reviews`,
-      {
-        headers: {
-          "X-Goog-Api-Key": apiKey,
-        },
-        cache: "no-store",
-      }
-    );
+        `https://places.googleapis.com/v1/places/${placeId}?fields=displayName,rating,userRatingCount,reviews`,
+        {
+          headers: {
+            "X-Goog-Api-Key": apiKey!,
+          },
+          next: {
+            revalidate: 86400, // 1 day
+          },
+        }
+      );
 
     const data = await response.json();
     return NextResponse.json(data);
