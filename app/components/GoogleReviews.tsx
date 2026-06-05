@@ -183,7 +183,6 @@ export default function GoogleReviews() {
 //     ? (reviews.reduce((sum, r) => sum + (r.rating || 5), 0) / reviews.length).toFixed(1)
 //     : "5.0";
 console.log(rating,reviews,"abcd")
-const avgRating=rating.rating;
   return (
     <section style={{
       background: "#FAF8F4",
@@ -221,7 +220,7 @@ const avgRating=rating.rating;
                 color: "#2A1A08", fontFamily: "Georgia, serif",
                 lineHeight: 1,
               }}>
-                {avgRating}
+                {rating.rating}
               </span>
               <div>
                 <StarRating rating={5} />
