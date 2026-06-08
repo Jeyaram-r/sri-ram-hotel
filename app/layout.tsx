@@ -60,6 +60,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             }),
           }}
         />
+        <link
+          rel="preload"
+          as="image"
+          href="/images/background.webp"
+          fetchPriority="high"
+        />
       </head>
       <body className={inter.className}>
         <ClientLayout>{children}</ClientLayout>

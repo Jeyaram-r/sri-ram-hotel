@@ -13,22 +13,27 @@ export async function GET() {
     }
 
     const response = await fetch(
-        `https://places.googleapis.com/v1/places/${placeId}?fields=displayName,rating,userRatingCount,reviews`,
-        {
-          headers: {
-            "X-Goog-Api-Key": apiKey!,
-          },
-          next: {
-            revalidate: 86400, // 1 day
-          },
-        }
-      );
+      `https://places.googleapis.com/v1/places/${placeId}?fields=displayName,rating,userRatingCount,reviews`,
+      {
+        headers: {
+          "X-Goog-Api-Key": apiKey,
+        },
+        next: {
+          revalidate: 86400, // cache for 1 day on server
+        },
+      }
+    );
 
     const data = await response.json();
-    return NextResponse.json(data);
+
+    return NextResponse.json(data, {
+      headers: {
+        // ✅ Cache-Control now correctly on the response:
+        "Cache-Control": "public, s-maxage=86400, stale-while-revalidate=3600",
+      },
+    });
   } catch (error) {
     console.error(error);
-
     return NextResponse.json(
       { error: "Failed to fetch reviews" },
       { status: 500 }

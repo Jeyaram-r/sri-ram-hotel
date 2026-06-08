@@ -159,20 +159,31 @@ function ReviewCard({ review, index }: { review: Review; index: number }) {
     </div>
   );
 }
-
+let cachedData: { reviews: Review[]; rating?: number; userRatingCount?: number } | null = null;
 export default function GoogleReviews() {
-  const [reviews, setReviews] = useState<Review[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [reviews, setReviews] = useState<Review[]>(cachedData?.reviews || []);
+  const [loading, setLoading] = useState(!cachedData);
   const [error, setError] = useState(false);
-  const [placeInfo, setPlaceInfo] = useState<{ rating?: number; userRatingCount?: number }>({});
-
+  const [placeInfo, setPlaceInfo] = useState(
+    cachedData ? { rating: cachedData.rating, userRatingCount: cachedData.userRatingCount } : {}
+  );
+  const hasFetched = useRef(false);
   useEffect(() => {
+    if (cachedData) {         
+      setTimeout(() => {
+        setLoading(false);
+      }, 100);
+      return;
+    }
+    if (hasFetched.current) return;  // already fetching — skip
+    hasFetched.current = true;
+  
     fetch("/api/reviews")
       .then((res) => res.json())
       .then((data) => {
+        cachedData = data;
         setReviews(data.reviews || []);
         setPlaceInfo({ rating: data.rating, userRatingCount: data.userRatingCount });
-
         setLoading(false);
       })
       .catch(() => {

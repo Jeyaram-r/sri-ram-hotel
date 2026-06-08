@@ -1,13 +1,25 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import Navbar from "./components/navbar";
-import MenuSection from "../app/menu/page";
-import BackgroundImg from "../app/images/background.png";
 import logo1 from "../app/images/logo1.png";
-import About from "./about/page";
 import { useLang } from "../app/context/LangContext";
 import { trackEvent, trackPageView } from "../app/lib/mixpanel";
-import GoogleReviews from "./components/GoogleReviews";
+import dynamic from "next/dynamic";
+
+const About = dynamic(() => import("./about/page"), {
+  loading: () => <div style={{ padding: "4rem", textAlign: "center", color: "#A89070" }}>Loading...</div>,
+  ssr: false,
+});
+
+const MenuSection = dynamic(() => import("../app/menu/page"), {
+  loading: () => <div style={{ padding: "4rem", textAlign: "center", color: "#A89070" }}>Loading menu...</div>,
+  ssr: false,
+});
+
+const GoogleReviews = dynamic(() => import("./components/GoogleReviews"), {
+  loading: () => <div style={{ padding: "2rem", textAlign: "center", color: "#A89070" }}>Loading reviews...</div>,
+  ssr: false,
+});
 // inside the component:
 
 const SPECIALS = [
@@ -49,6 +61,33 @@ const TIMINGS = [
   { meal: "Lunch", time: "12:00 PM – 3:30 PM", color: "#1B7C4E" },
   { meal: "Dinner", time: "7:00 PM – 10:30 PM", color: "#3A1F6E" },
 ];
+function useInView(threshold = 0.15) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) setInView(true); },
+      { threshold }
+    );
+    if (ref.current) obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, []);
+  return { ref, inView };
+}
+
+function FadeIn({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+  const { ref, inView } = useInView();
+  return (
+    <div ref={ref} style={{
+      opacity: inView ? 1 : 0,
+      transform: inView ? "translateY(0)" : "translateY(24px)",
+      transition: `opacity 0.7s ease ${delay}s, transform 0.7s ease ${delay}s`,
+    }}>
+      {children}
+    </div>
+  );
+}
+
 
 export default function Home() {
   
@@ -60,10 +99,8 @@ export default function Home() {
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-  useEffect(() => {
     trackPageView("Home");
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   const scrollTo = (ref: React.RefObject<HTMLElement>) => {
@@ -163,6 +200,18 @@ html, body { overflow-x: hidden; max-width: 100%; }
             grid-template-columns: repeat(2, 1fr) !important;
           }
         }
+         .hero-section {
+          background-image: linear-gradient(rgba(26,18,8,0.72), rgba(26,18,8,0.72)), url('/images/background.webp');
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
+        }
+        @media (min-width: 640px) {
+          .hero-section {
+            background-image: linear-gradient(rgba(26,18,8,0.72), rgba(26,18,8,0.72)), url('/images/background.webp');
+          }
+        }
+        }
       `}</style>
 
       {/* Hero */}
@@ -174,10 +223,6 @@ html, body { overflow-x: hidden; max-width: 100%; }
           overflow: "hidden",
           padding: "5rem 2rem 4.5rem",
           textAlign: "center",
-          backgroundImage: `linear-gradient(rgba(26,18,8,0.72), rgba(26,18,8,0.72)), url(${BackgroundImg.src})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
           minHeight: "85vh",
           display: "flex",
           alignItems: "center",
@@ -189,6 +234,7 @@ html, body { overflow-x: hidden; max-width: 100%; }
             src={logo1.src}
             alt="Sri Ram Hotel"
             className="hero-logo-mobile"
+            loading="lazy"
             style={{ height: 70, width: "auto", objectFit: "contain", marginBottom: "1.5rem" }}
           />
           <p className="fade-up d1" style={{
@@ -421,6 +467,7 @@ html, body { overflow-x: hidden; max-width: 100%; }
         borderTop: "1px solid rgba(201,168,76,0.15)",
       }}>
         <img
+          loading="lazy"
           src={logo1.src}
           alt="Sri Ram Hotel"
           className="footer-logo"
